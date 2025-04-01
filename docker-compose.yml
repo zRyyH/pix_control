@@ -1,0 +1,36 @@
+services:
+  directus:
+    image: directus/directus:11.5.1
+    ports:
+      - 8055:8055
+    volumes:
+      - ./uploads:/directus/uploads
+      - ./extensions:/directus/extensions
+    environment:
+      SECRET: "f6f6335c403da7f81dbd80bd55a2664d33b595ade8528ce88291f79d9debeeda"
+      ADMIN_EMAIL: "admin@admin.com"
+      ADMIN_PASSWORD: "d1r3ctu5"
+      DB_CLIENT: "mysql"
+      DB_HOST: "207.180.193.45"
+      DB_PORT: "3306"
+      DB_DATABASE: "pix_control"
+      DB_USER: "pix_control"
+      DB_PASSWORD: "Zc68dzmD3daTLFxT"
+      WEBSOCKETS_ENABLED: "true"
+
+  api:
+    build: ./pix-control-api
+    container_name: pix_control_api
+    ports:
+      - "8000:8000"
+    env_file:
+      - pix-control-api/.env
+    restart: unless-stopped
+    command: [ "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "4" ]
+
+  bot:
+    build: "./pix-control-whatsapp-api"
+    container_name: whatsapp-bot
+    restart: unless-stopped
+    env_file:
+      - "pix-control-whatsapp-api/.env"

@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "@wppconnect-team/wppconnect": "^1.36.4",
+    "axios": "^1.8.4",
+    "dotenv": "^16.4.7",
+    "install": "^0.13.0",
+    "jsonwebtoken": "^9.0.2",
+    "npm": "^11.2.0"
+  }
+}

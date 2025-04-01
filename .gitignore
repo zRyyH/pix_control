@@ -1,0 +1,17 @@
+# Ignorar arquivos do directus
+/uploads
+
+# Ignorar arquivos de configuração do bot
+/pix_control_whatsapp_api/tokens
+
+
+# Ignorar arquivos .env
+*.env
+
+# Ignorar arquivos de configuração node
+*node_modules
+*package-lock.json
+
+# Ignorar arquivos de configuração python
+*__pycache__
+*venv
