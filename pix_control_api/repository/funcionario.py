@@ -1,5 +1,5 @@
 from integrations.directus_api import DirectusAPI
-from logger import info, error
+from logger import error
 
 
 # Classe para manipular funcionarios na API do Directus

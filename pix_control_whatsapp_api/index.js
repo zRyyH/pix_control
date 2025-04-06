@@ -10,13 +10,17 @@ const axios = require('axios');
 const secret = process.env.SECRET_KEY;
 
 
+// Obtendo IP da API
+const ip = process.env.API_IP || 'localhost:8000';
+
+
 // Geração do token
 const token = jwt.sign({}, secret);
 
 
 // Instanciação do axios com o token
 const api = axios.create({
-    baseURL: 'http://api:8000/api',
+    baseURL: `http://${ip}/api`,
     timeout: 60000,
     headers: {
         Authorization: `Bearer ${token}`
@@ -43,7 +47,7 @@ wppconnect
 // Função para iniciar o cliente e escutar mensagens
 function start(client) {
     client.onAnyMessage(async (message) => {
-        console.log('Mensagem recebida:', message.from, message.to);
+        console.log('Mensagem recebida:', 'de:', message.from, 'para:', message.to, 'autor:', message.author);
 
         if (message.mimetype) {
             const media = await client.decryptFile(message);
@@ -64,7 +68,11 @@ function start(client) {
                     },
                     params: {
                         from_number: message.from.split("@")[0],
-                        to_number: message.to.split("@")[0]
+                        to_number: message.to.split("@")[0],
+                        author_number: message.author ? message.author.split("@")[0] : 0,
+                        is_group_msg: message.isGroupMsg ? 1 : 0,
+                        from_me: message.fromMe ? 1 : 0,
+                        timestamp: message.t,
                     }
                 });
 

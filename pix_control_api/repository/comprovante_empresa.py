@@ -1,5 +1,5 @@
 from integrations.directus_api import DirectusAPI
-from utils.hash import gerar_hash
+from utils.hash_utils import gerar_hash
 from logger import info, error
 
 
@@ -57,7 +57,7 @@ class ComprovanteEmpresaAPI:
 
             self.directus_api.post_directus(
                 endpoint="/items/comprovantes_empresa",
-                json=data,
+                json_data=data,
             )
 
             info("Fazendo upload do comprovante empresa")

@@ -1,11 +1,8 @@
+from integrations.google_cloud import extract_text_from_image
+from utils.pdf_utils import extract_text_from_pdf
 from constants.constants_global import EXTENSIONS
 from processors.parsers.comprovante import parser
-from integrations.utils_api import UtilsAPI
-from logger import info, error
-
-
-# Função para processar o extrato bancário
-ultils_api = UtilsAPI()
+from logger import error
 
 
 # Função para processar o extrato bancário
@@ -18,14 +15,12 @@ def extractor(comprovante_content, comprovante_file):
     extension = comprovante_file.filename.split(".")[-1]
 
     if extension in EXTENSIONS["COMPROVANTE"]["IMAGE"]:
-        comprovante_lines = ultils_api.extract_text_from_image(comprovante_content)[
-            "text"
-        ]["textAnnotations"][0]["description"]
+        comprovante_lines = extract_text_from_image(comprovante_content)[
+            "textAnnotations"
+        ][0]["description"]
 
     elif extension in EXTENSIONS["COMPROVANTE"]["DOCUMENT"]:
-        comprovante_lines = ultils_api.extract_text_from_pdf(comprovante_content)[
-            "text"
-        ]
+        comprovante_lines = extract_text_from_pdf(comprovante_content)
 
     else:
         error(f"Não suportado: {comprovante_file.filename} - {extension}")

@@ -1,9 +1,5 @@
-from integrations.utils_api import UtilsAPI
-from logger import error, info
-
-
-# Instancia a API do Utils
-utils_api = UtilsAPI()
+from integrations.platform_openai import extract_important_data
+from logger import error
 
 
 # Função para processar o extrato bancário
@@ -18,7 +14,7 @@ def parser(comprovante_content):
         }"""
 
         # Extrai os dados importantes do texto
-        data = utils_api.extract_important_data(comprovante_content + message)["text"]
+        data = extract_important_data(comprovante_content + message)
 
         # Verifica se o JSON é válido
         comprovante = {

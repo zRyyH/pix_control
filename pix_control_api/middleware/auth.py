@@ -1,7 +1,7 @@
-from fastapi import Request, HTTPException, Depends
+from fastapi import Request, HTTPException
+from functools import lru_cache
 import jwt
 import os
-from functools import lru_cache
 
 
 @lru_cache()
@@ -18,7 +18,7 @@ async def verify_token(request: Request):
         token = auth_header.split(" ")[1]
         secret_key = get_secret_key()
         jwt.decode(token, secret_key, algorithms=["HS256"])
-        
+
         return True
     except jwt.PyJWTError as e:
         raise HTTPException(status_code=401, detail=f"Invalid token: {str(e)}")

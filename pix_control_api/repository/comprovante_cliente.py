@@ -1,6 +1,6 @@
 from integrations.directus_api import DirectusAPI
-from utils.hash import gerar_hash
-from logger import info, error
+from utils.hash_utils import gerar_hash
+from logger import info, error, warning
 
 
 class ComprovanteClienteAPI:
@@ -34,8 +34,10 @@ class ComprovanteClienteAPI:
     def criar(self, data, file, content):
         try:
             if self._verificar_hash(file):
-                info("Comprovante cliente já existe no banco de dados")
-                raise Exception("Comprovante cliente já existe no banco de dados")
+                warning(
+                    "Comprovante cliente já existe no banco de dados, operação cancelada"
+                )
+                return False
 
             arquivo = self.directus_api.post_directus(
                 endpoint="/files",
@@ -57,11 +59,23 @@ class ComprovanteClienteAPI:
 
             self.directus_api.post_directus(
                 endpoint="/items/comprovantes_cliente",
-                json=data,
+                json_data=data,
             )
 
-            info("Fazendo upload do comprovante cliente")
+            return True
 
         except Exception as e:
             error(f"Erro ao fazer upload do comprovante cliente: {str(e)}")
             raise Exception(f"Erro ao fazer upload do comprovante cliente")
+
+    def obter_comprovantes(self, params=None):
+        try:
+            # Obtem todos os comprovantes do cliente
+            return self.directus_api.get_directus(
+                endpoint="/items/comprovantes_cliente",
+                params=params,
+            )["data"]
+
+        except Exception as e:
+            error(f"Erro ao obter comprovantes cliente: {str(e)}")
+            raise Exception(f"Erro ao obter comprovantes cliente")

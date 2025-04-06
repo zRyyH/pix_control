@@ -3,7 +3,7 @@ import re
 
 
 def parser_corpx(extrato_content):
-    texto = extrato_content["text"]
+    texto = extrato_content
 
     texto = re.sub(r"\n", " ", texto)
 

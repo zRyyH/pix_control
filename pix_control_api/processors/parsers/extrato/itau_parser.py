@@ -3,7 +3,7 @@ import re
 
 
 def parser_itau(extrato_content):
-    texto = extrato_content["text"]
+    texto = extrato_content
 
     # Regex que não depende do mês específico
     padrao = r"PIX TRANSF ([A-Za-z\s\.]+?)(\d{2}/\d{2}) ([\d\.,]+)"
