@@ -6,18 +6,17 @@ from middleware.auth import verify_token
 
 
 # Criar router com autenticação
-# router = APIRouter(
-#     prefix="/api", tags=["extractors"], dependencies=[Depends(verify_token)]
-# )
+router = APIRouter(
+    prefix="/api", tags=["extractors"], dependencies=[Depends(verify_token)]
+)
 
+# router = APIRouter(prefix="/api", tags=["extractors"])
 
 scheduler = BackgroundScheduler()
 
 # Agenda para rodar a cada minuto (como um cron)
-scheduler.add_job(processar_transferencias, 'cron', minute='*')
+scheduler.add_job(processar_transferencias, "cron", minute="*")
 scheduler.start()
-
-router = APIRouter(prefix="/api", tags=["extractors"])
 
 
 # Rota para validar comprovante com transferências bancárias
